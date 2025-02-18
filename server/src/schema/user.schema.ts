@@ -7,5 +7,9 @@ export const UserSchema = new Schema<IUser>({
     firstName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    avatar: { type: mongoose.Schema.Types.ObjectId, ref: "Avatar" } // Référence à l'avatar
+    avatar: { type: mongoose.Schema.Types.ObjectId, ref: "Avatar" },
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now },
+    isDeleted: { type: Boolean, default: false, required: true },
+    deleted_at: { type: Date, default: null, required: false }
 });

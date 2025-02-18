@@ -1,9 +1,14 @@
-import mongoose, { Schema, Document} from "mongoose";
+import mongoose, { Document} from "mongoose";
+import { IAvatar } from "./avatar";
 
 export interface IUser extends Document {
     lastName: string;
     firstName: string;
     email: string;
     password: string;
-    avatar?: mongoose.Types.ObjectId | IAvatar
+    avatar?: mongoose.Types.ObjectId | IAvatar;
+    created_at: Date;
+    updated_at?: Date;
+    isDeleted: boolean;
+    deleted_at?: Date
 } 
