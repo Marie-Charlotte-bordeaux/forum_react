@@ -3,7 +3,7 @@ import { IPost } from "./post";
 import { IUser } from "./user";
 
 export interface IFavorite extends Document {
-  postId: mongoose.Types.ObjectId | IPost;
+  postIDs: [mongoose.Types.ObjectId | IPost];
   userId: mongoose.Types.ObjectId | IUser;
   created_at: Date;
   updated_at?: Date;
