@@ -1,8 +1,12 @@
 import express, { Request, Response } from "express";
 import { connectToMongo } from "./utils/db";
+import userRouter from "./routes/user.route";
 
 
 const app = express();
+// Middleware pour parser le corps des requêtes en JSON
+// app.use(express.json()); 
+
 const port = process.env.PORT;
 
 app.use(express.json())
@@ -10,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 app.use(express.static('public'));
 
-app.use("/api/users", UserControler)
+app.use("/api/users", userRouter)
 
 // app.get("/", (req: Request, res: Response) => {
 //     res.send("Hello World !!!!!");
