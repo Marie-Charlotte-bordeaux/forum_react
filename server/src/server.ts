@@ -1,23 +1,24 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { connectToMongo } from "./utils/db";
 import userRouter from "./routes/user.route";
 
-
 const app = express();
-// Middleware pour parser le corps des requêtes en JSON
-app.use(express.json())
-
-const port = process.env.PORT;
-
-//transformer dataform en json
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
 app.use(express.static('public'));
+app.use("/api/users", userRouter);
 
-app.use("/api/users", userRouter)
+const port = process.env.PORT || 5000;
 
+async function startServer() {
+    try {
+        await connectToMongo();
+        app.listen(port, () => {
+            console.log(`Server running on http://localhost:${port}`);
+        });
+    } catch (error) {
+        console.error("Failed to start server:", error);
+    }
+}
 
-app.listen(port, () => {
-    console.log("Server running on http://localhost:5000");
-    connectToMongo();
-});
+startServer();
