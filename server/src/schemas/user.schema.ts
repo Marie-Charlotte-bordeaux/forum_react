@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { model } from "mongoose";
 import { Schema } from "mongoose";
 import { IUser } from "../models/user";
 
@@ -13,3 +13,8 @@ export const UserSchema = new Schema<IUser>({
     isDeleted: { type: Boolean, default: false, required: true },
     deleted_at: { type: Date, default: null, required: false }
 });
+
+// Créer le modèle User à partir du schéma
+const User = model('User', UserSchema);
+
+export default User; // Exporter le modèle pour l'utiliser dans le contrôleur
