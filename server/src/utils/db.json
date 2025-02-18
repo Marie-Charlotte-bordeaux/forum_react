@@ -38,6 +38,10 @@
     "favorites": {
         "_id": "ObjectId",
         "postId": "ObjectId",
-        "userId": "ObjectId"
+        "userId": "ObjectId",
+        "created_at": "date",
+        "updated_at": "date",
+        "deleted_at": "date",
+        "is_deleted": "boolean"
     }
 }
