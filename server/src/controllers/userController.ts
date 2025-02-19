@@ -33,7 +33,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     });
 
     // Vérifier si l'utilisateur existe déjà
-    const existingUser = await UserService.findUserByEmail(email, user._id);
+    const existingUser = await UserService.findUserByEmail(email);
     if (existingUser) {
       res.status(400).json({ message: ERRORS.USER_EXIST });
       return;
@@ -75,14 +75,15 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password }: IUserLogin = req.body; 
 
     // Créer un nouvel utilisateur
-    const userLogin: IUserLogin = new User({
-      email,
-      password,
-    });
+    //const userLogin: IUserLogin = new User({
+      //email,
+      //password,
+   // });
 
   // Récuperer l'utilisateur depuis la BDD
-  const userFromDB = await  UserService.findUserByEmail(email, userLogin._id);
+  const userFromDB = await  UserService.findUserByEmail(email);
   // Tester si il existe, sinon erreur
+  console.log(userFromDB)
   if (!userFromDB) {
     res.status(401).json({ message: "INVALID_CREDENTIAL" });
     return;
