@@ -14,7 +14,9 @@ export const UserSchema = new Schema<IUser>({
     deleted_at: { type: Date, default: null, required: false }
 });
 
-// Créer le modèle User à partir du schéma
-const User = model('User', UserSchema);
+export default mongoose.model("users", UserSchema);
 
-export default User; // Exporter le modèle pour l'utiliser dans le contrôleur
+// // Créer le modèle User à partir du schéma
+// const User = model('User', UserSchema);
+
+// export default User; // Exporter le modèle pour l'utiliser dans le contrôleur

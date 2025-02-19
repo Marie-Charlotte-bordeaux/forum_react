@@ -9,3 +9,5 @@ export const FavoriteSchema = new Schema<IFavorite>({
   deleted_at: { type: Date, default: null },
   is_deleted: { type: Boolean, default: false, required: true },
 })
+
+export default mongoose.model("favorites", FavoriteSchema);

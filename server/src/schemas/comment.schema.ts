@@ -10,3 +10,5 @@ export const CommentSchema = new Schema<IComment>({
   deleted_at: { type: Date, default: null },
   is_deleted: { type: Boolean, default: false, required: true },
 });
+
+export default mongoose.model("comments", CommentSchema);

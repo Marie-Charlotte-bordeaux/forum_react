@@ -11,3 +11,5 @@ export const AvatarSchema = new Schema<IAvatar>({
     isDeleted: { type: Boolean, default: false, required: true },
     deleted_at: { type: Date, default: null, required: false }
 }) 
+
+export default mongoose.model("avatars", AvatarSchema);
