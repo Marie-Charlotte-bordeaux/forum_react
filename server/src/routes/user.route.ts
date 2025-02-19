@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, loginUser } from '../controllers/userController';
+import { createUser, loginUser, logout } from '../controllers/userController';
 
 const userRouter = express.Router();
 
@@ -8,5 +8,8 @@ userRouter.post('/register', createUser);
 
 // pour la connexion d'un utilisateur
 userRouter.post('/login', loginUser);
+
+// Deco
+userRouter.get('/logout', logout);
 
 export default userRouter;

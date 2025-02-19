@@ -9,7 +9,10 @@ import { UserDto } from '../dto/user.dto';
 import {JWT} from '../libs/jwt'; 
 import { IUserLogin } from '../models/userLogin';  // Importation de l'interface IUserLogin
 
+
+// *******************************
 // Créer un utilisateur
+// *******************************
 export async function createUser(req: Request, res: Response): Promise<void> {
   try {
     // Valider les données d'entrée avec Zod
@@ -67,7 +70,8 @@ export const ERRORS = {
   USER_EXIST :"USER_EXIST"
 }
 
-// *********************
+
+// *******************************
 // Connexion de l'utilisateur
 // *******************************
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
@@ -103,3 +107,12 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
   return;
 };
 
+
+// *******************************
+// Déconnexion de l'utilisateur
+// *******************************
+export const logout = async (req: Request, res: Response): Promise<void> => {
+  res.clearCookie('access_token');
+  res.json({ message: "LOGOUT_SUCCESSFUL" })
+  return;
+};
