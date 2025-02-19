@@ -1,6 +1,8 @@
 import express from "express";
 import { connectToMongo } from "./utils/db";
 import userRouter from "./routes/user.route";
+import cors from "cors";
+
 
 const app = express();
 app.use(express.json());
@@ -20,5 +22,16 @@ async function startServer() {
         console.error("Failed to start server:", error);
     }
 }
+
+
+
+// Configurer CORS pour permettre les requêtes depuis le frontend (React)
+const corsOptions = {
+  origin: 'http://localhost:5174', // URL du frontend React
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // méthodes HTTP autorisées
+  credentials: true, //utiliser les cookies ou partager des cookies entre frontend et backend
+};
+
+app.use(cors(corsOptions));
 
 startServer();
