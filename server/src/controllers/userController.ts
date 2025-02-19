@@ -7,6 +7,7 @@ import { Hasher } from '../libs/hash';
 import { UserService } from '../services/user.service';
 import { UserDto } from '../dto/user.dto';
 import {JWT} from '../libs/jwt'; 
+import { IUserLogin } from '../models/userLogin';  // Importation de l'interface IUserLogin
 
 // Créer un utilisateur
 export async function createUser(req: Request, res: Response): Promise<void> {
@@ -70,19 +71,23 @@ export const ERRORS = {
 // Connexion de l'utilisateur
 // *******************************
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
-  const user: IUser = new User({
-    email,
-    password,
-  });
+  // const { email, password } = req.body;
+  const { email, password }: IUserLogin = req.body; 
+
+    // Créer un nouvel utilisateur
+    const userLogin: IUserLogin = new User({
+      email,
+      password,
+    });
+
   // Récuperer l'utilisateur depuis la BDD
-  const userFromDB = await  UserService.findUserByEmail(email, user._id);
+  const userFromDB = await  UserService.findUserByEmail(email, userLogin._id);
   // Tester si il existe, sinon erreur
   if (!userFromDB) {
     res.status(401).json({ message: "INVALID_CREDENTIAL" });
     return;
   }
-  // Tester si le mot de passe est correct
+  // Tester si le MDP est correct
   const isPasswordValid = Hasher.compare(password, userFromDB.password);
 
   if (!isPasswordValid) {
@@ -94,7 +99,11 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const access_token = JWT.sign({ id: userFromDB._id });
   // Ajouter le token dans les cookies
   res.cookie("access_token", access_token, { httpOnly: true, sameSite: "strict", secure: false });
-
+  const user = {
+    _id: userFromDB._id,
+    email: userFromDB.email,
+    avatarURL: userFromDB.avatar
+  }
   // retourner le access_token, et les données de l'utilisateur
   res.json({ message: "SINGIN_SUCCESSFUL", access_token: access_token, user })
   return;
