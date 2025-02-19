@@ -6,6 +6,7 @@ import * as userService from '../services/user.service'
 import { Hasher } from '../libs/hash';
 import { UserService } from '../services/user.service';
 import { UserDto } from '../dto/user.dto';
+import {JWT} from '../libs/jwt'; 
 
 // Créer un utilisateur
 export async function createUser(req: Request, res: Response): Promise<void> {
@@ -31,7 +32,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     });
 
     // Vérifier si l'utilisateur existe déjà
-    const existingUser = await UserService.findUserByEmail(email);
+    const existingUser = await UserService.findUserByEmail(email, user._id);
     if (existingUser) {
       res.status(400).json({ message: ERRORS.USER_EXIST });
       return;
@@ -41,7 +42,19 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     const hashedPassword = await Hasher.hash(password)
 
     const createdUser = await UserService.create({lastName, firstName, email, password: hashedPassword});
-    res.status(201).json({ message: 'USER_CREATED', user:createdUser });
+    // Générer un token JWT
+  // Créer un jwt
+  const access_token = JWT.sign({ id: existingUser });
+
+    // On ne retourne pas le mot de passe de l'utilisateur
+    const userResponse = {
+      firstName: createdUser.firstName,
+      lastName: createdUser.lastName,
+      email: createdUser.email,
+    };
+
+    res.status(201).json({ message: 'USER_CREATED', user:userResponse,
+      token: access_token});
   } catch (error) {
     res.status(500).json({ message: 'DATABASE_ERROR', error });
   }
@@ -66,7 +79,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     }
 
     // Vérifier le mot de passe
-   
+
     // Si tout va bien, retourner une réponse
     // Créer un JWT (Token)
     // Mettre le token dans les cookies
@@ -75,6 +88,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: 'Erreur lors de la connexion', error });
   }
 };
+
 function create(arg0: { lastName: any; firstName: any; email: any; password: string; }) {
   throw new Error('Function not implemented.');
 }

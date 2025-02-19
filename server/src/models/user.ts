@@ -2,6 +2,7 @@ import mongoose, { Document} from "mongoose";
 import { IAvatar } from "./avatar";
 
 export interface IUser extends Document {
+    _id: string;
     lastName: string;
     firstName: string;
     email: string;

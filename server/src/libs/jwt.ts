@@ -1,21 +1,25 @@
 import jwt from 'jsonwebtoken';
 
-// Clé secrète pour signer les JWT.  **IMPORTANT :** Gardez cette clé secrète en sécurité et ne la partagez jamais publiquement (utilisez une variable d'environnement).
-const JWT_SECRET = process.env.SECRET_KEY || 'kaka'; // Clé de secours si la variable d'environnement n'est pas définie (à des fins de développement uniquement)
-const expiresIn = process.env.EXPIRE_IN || 3600 ;
+const SECRET_KEY = "hG6LVrtvTPjRsiVfGW1tSUId44c6TcbF9dfuEy9o67gmXkoLF1Wlekk11TGulYxI";
+const EXPIRES_IN = 60 * 60 * 24 * 7;
 
-// Fonction pour générer un JWT
-export const generateToken = (userId: string) => {
-  const token = jwt.sign({ userId }, JWT_SECRET, { expiresIn : 3600 }); // Durée de validité du token (ici, 1 heure)
-  return token;
-};
+export const JWT = {
 
-// Fonction pour vérifier un JWT
-export const verifyToken = (token: string): string | null => {
+sign: (payload: any) => {
+  const token = jwt.sign({ data: payload }, SECRET_KEY, { expiresIn: EXPIRES_IN });
+  return token
+},
+verify: (token: string) => {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
-    return decoded.userId;
-  } catch (error) {
-    return null; // Token invalide ou expiré
+    const decoded = jwt.verify(token, SECRET_KEY);
+    return { success: true, payload: decoded };
+  } catch (err: any) {
+    if (err.name === "TokenExpiredError") {
+      return { success: false, message: 'TOKEN_EXPIRED' };
+    }
+    if (err.name === "JsonWebTokenError") {
+      return { success: false, message: 'TOKEN_INVALID' };
+    }
   }
-};
+}
+}
