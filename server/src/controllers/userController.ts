@@ -45,7 +45,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     // Générer un token JWT
   // Créer un jwt
   const access_token = JWT.sign({ id: existingUser });
-
+  res.cookie("access_token", access_token, { httpOnly: true, sameSite: "strict", secure: false })
     // On ne retourne pas le mot de passe de l'utilisateur
     const userResponse = {
       firstName: createdUser.firstName,
@@ -61,35 +61,42 @@ export async function createUser(req: Request, res: Response): Promise<void> {
 
 };
 
+// Faire un fichier ERROR avec toutes les erreurs 
 export const ERRORS = {
   USER_EXIST :"USER_EXIST"
 }
 
-
+// *********************
 // Connexion de l'utilisateur
+// *******************************
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { email, password } = req.body;
-
-    // Vérifier si l'utilisateur existe
-    const user = await User.findOne({ email });
-    if (!user) {
-      res.status(400).json({ message: 'Utilisateur non trouvé' });
-      return
-    }
-
-    // Vérifier le mot de passe
-
-    // Si tout va bien, retourner une réponse
-    // Créer un JWT (Token)
-    // Mettre le token dans les cookies
-    res.status(200).json({ message: 'Connexion réussie', userId: user._id });
-  } catch (error) {
-    res.status(500).json({ message: 'Erreur lors de la connexion', error });
+  const { email, password } = req.body;
+  const user: IUser = new User({
+    email,
+    password,
+  });
+  // Récuperer l'utilisateur depuis la BDD
+  const userFromDB = await  UserService.findUserByEmail(email, user._id);
+  // Tester si il existe, sinon erreur
+  if (!userFromDB) {
+    res.status(401).json({ message: "INVALID_CREDENTIAL" });
+    return;
   }
-};
+  // Tester si le mot de passe est correct
+  const isPasswordValid = Hasher.compare(password, userFromDB.password);
 
-function create(arg0: { lastName: any; firstName: any; email: any; password: string; }) {
-  throw new Error('Function not implemented.');
-}
+  if (!isPasswordValid) {
+    res.status(401).json({ message: "INVALID_CREDENTIAL" });
+    return;
+  }
+
+  // Créer un jwt
+  const access_token = JWT.sign({ id: userFromDB._id });
+  // Ajouter le token dans les cookies
+  res.cookie("access_token", access_token, { httpOnly: true, sameSite: "strict", secure: false });
+
+  // retourner le access_token, et les données de l'utilisateur
+  res.json({ message: "SINGIN_SUCCESSFUL", access_token: access_token, user })
+  return;
+};
 
