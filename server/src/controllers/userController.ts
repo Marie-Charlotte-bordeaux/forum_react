@@ -71,14 +71,7 @@ export const ERRORS = {
 // Connexion de l'utilisateur
 // *******************************
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
-  // const { email, password } = req.body;
   const { email, password }: IUserLogin = req.body; 
-
-    // Créer un nouvel utilisateur
-    //const userLogin: IUserLogin = new User({
-      //email,
-      //password,
-   // });
 
   // Récuperer l'utilisateur depuis la BDD
   const userFromDB = await  UserService.findUserByEmail(email);
