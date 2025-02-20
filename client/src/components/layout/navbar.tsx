@@ -9,6 +9,9 @@ function Navbar() {
     <nav className="bg-background shadow">
       <ul>
         <li>
+          ma tronche
+        </li>  
+        <li>
           <NavLink to="/" >home page</NavLink>
         </li>        
         <li>
@@ -16,7 +19,10 @@ function Navbar() {
         </li>        
         <li>
           <NavLink to="/signup" >up page</NavLink>
-        </li>      
+        </li>     
+        <li>
+          <NavLink to="/logout" >Aller! salut !</NavLink>
+        </li>  
       </ul>
     </nav>
     </>
