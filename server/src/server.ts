@@ -5,6 +5,16 @@ import cors from "cors";
 
 
 const app = express();
+
+// Configurer CORS pour permettre les requêtes depuis le frontend (React)
+const corsOptions = {
+    origin: 'http://localhost:5173', // URL du frontend React
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // méthodes HTTP autorisées
+    credentials: true, //utiliser les cookies ou partager des cookies entre frontend et backend
+  };
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -25,13 +35,7 @@ async function startServer() {
 
 
 
-// Configurer CORS pour permettre les requêtes depuis le frontend (React)
-const corsOptions = {
-  origin: 'http://localhost:5174', // URL du frontend React
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // méthodes HTTP autorisées
-  credentials: true, //utiliser les cookies ou partager des cookies entre frontend et backend
-};
 
-app.use(cors(corsOptions));
+
 
 startServer();
