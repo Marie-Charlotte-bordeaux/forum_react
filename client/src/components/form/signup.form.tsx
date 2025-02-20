@@ -56,7 +56,7 @@ const SignupForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-blue-950 p-6 rounded-lg shadow-md">
+    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-4">Inscription</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* 🔹 Champ Nom */}

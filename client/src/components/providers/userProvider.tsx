@@ -18,7 +18,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
         })();
     }, []);
 
-    async function signup(signupData: any) {
+    async function signup(signupData: unknown) {
         try {
             const response = await axios.post("http://localhost:5000/api/users/register", signupData, {
                 headers: { "Content-Type": "application/json" },
