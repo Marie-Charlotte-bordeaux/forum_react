@@ -25,7 +25,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
                 withCredentials: true,
             });
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 setUser(response.data.user);
                 return { success: true, message: "Inscription réussie." };
             }
