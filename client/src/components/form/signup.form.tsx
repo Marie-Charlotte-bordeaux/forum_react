@@ -27,6 +27,7 @@ const SignupForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -48,6 +49,7 @@ const SignupForm: React.FC = () => {
       // Vérifier si l'inscription a réussi et afficher un message approprié
       if (result.success) {
         alert(result.message); // Inscription réussie
+        reset();
         navigate("/");
       } else {
         alert(result.message); // Message d'erreur
