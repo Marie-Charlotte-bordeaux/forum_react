@@ -116,7 +116,7 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // 🔹 Secure en prod
     sameSite: "strict",
-    path: "/"  // 🔹 Assure-toi que le chemin correspond
+    path: "/" 
   });
 
   res.status(200).json({ message: "LOGOUT_SUCCESSFUL" });
