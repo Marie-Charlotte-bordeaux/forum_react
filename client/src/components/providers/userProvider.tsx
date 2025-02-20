@@ -1,7 +1,6 @@
-import { UserContext } from "./userContext";
-import { ReactNode } from "react";
-import { useEffect, useState } from "react";
-import axios from 'axios'; // Importer Axios
+import { UserContext, UserContextType } from "./userContext";
+import { ReactNode, useEffect, useState } from "react";
+import axios from "axios";
 
 export default function UserProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState(null);
@@ -9,7 +8,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get("/api/users/me", { withCredentials: true });
+                const response = await axios.get("http://localhost:5000/api/users/me", { withCredentials: true });
                 if (response.status === 200) {
                     setUser(response.data);
                 }
@@ -19,13 +18,11 @@ export default function UserProvider({ children }: { children: ReactNode }) {
         })();
     }, []);
 
-    async function signup(signupData: unknown) {
+    async function signup(signupData: any) {
         try {
-            const response = await axios.post('http://localhost:5000/api/users/register', signupData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true, // Si tu backend utilise des cookies pour l'authentification
+            const response = await axios.post("http://localhost:5000/api/users/register", signupData, {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
             });
 
             if (response.status === 200) {
@@ -40,7 +37,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
     }
 
     return (
-        <UserContext.Provider value={{ user: user, signup }}>
+        <UserContext.Provider value={{ user, signup }}>
             {children}
         </UserContext.Provider>
     );
