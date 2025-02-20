@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import axios from "axios";  // Importer Axios
 
 // 🔹 Définition du schéma de validation avec Zod
 const schema = z
@@ -30,9 +31,27 @@ const SignupForm: React.FC = () => {
   });
 
   // 🔹 Fonction appelée lors de la soumission du formulaire
-  const onSubmit = (data: FormData) => {
-    console.log("Formulaire soumis :", data);
-    alert("Inscription réussie !");
+  const onSubmit = async (data: FormData) => {
+    try {
+      // Envoyer les données au backend via Axios
+      const response = await axios.post("http://localhost:5000/api/users/register", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        
+      });
+
+      if (response.status === 200) {
+        // Si l'inscription est réussie, afficher un message ou effectuer d'autres actions
+        alert("Inscription réussie !");
+        console.log(response.data); // Afficher la réponse du backend
+      } else {
+        alert("Une erreur est survenue lors de l'inscription.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'inscription:", error);
+      alert("Une erreur est survenue.");
+    }
   };
 
   return (
