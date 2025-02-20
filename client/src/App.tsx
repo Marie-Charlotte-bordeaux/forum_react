@@ -14,7 +14,7 @@ function App() {
     
     <header>
       <Navbar />
-      <h1 className="text-3xl font-bold underline">
+      <h1 className="text-3xl font-bold underline text-gray-400">
       Hello  Forum !
       </h1>
     </header>
