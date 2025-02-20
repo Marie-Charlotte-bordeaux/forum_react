@@ -11,7 +11,7 @@ const corsOptions = {
     origin: 'http://localhost:5173', // URL du frontend React
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // méthodes HTTP autorisées
     credentials: true, //utiliser les cookies ou partager des cookies entre frontend et backend
-  };
+};
 
 app.use(cors(corsOptions));
 

@@ -96,14 +96,14 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
   // Créer un jwt
   const access_token = JWT.sign({ id: userFromDB._id });
   // Ajouter le token dans les cookies
-  res.cookie("access_token", access_token, { httpOnly: true, sameSite: "strict", secure: false });
+  res.cookie("access_token", access_token, { httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV === "production" });
   const user = {
     _id: userFromDB._id,
     email: userFromDB.email,
     avatarURL: userFromDB.avatar
   }
   // retourner le access_token, et les données de l'utilisateur
-  res.json({ message: "SINGIN_SUCCESSFUL", access_token: access_token, user })
+  res.status(200).json({ message: "SINGIN_SUCCESSFUL", access_token: access_token, user })
   return;
 };
 
@@ -112,7 +112,13 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 // Déconnexion de l'utilisateur
 // *******************************
 export const logout = async (req: Request, res: Response): Promise<void> => {
-  res.clearCookie('access_token');
-  res.json({ message: "LOGOUT_SUCCESSFUL" })
+  res.clearCookie("access_token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // 🔹 Secure en prod
+    sameSite: "strict",
+    path: "/"  // 🔹 Assure-toi que le chemin correspond
+  });
+
+  res.status(200).json({ message: "LOGOUT_SUCCESSFUL" });
   return;
 };

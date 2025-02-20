@@ -10,6 +10,6 @@ userRouter.post('/register', createUser);
 userRouter.post('/login', loginUser);
 
 // Deco
-userRouter.get('/logout', logout);
+userRouter.post('/logout', logout);
 
 export default userRouter;
