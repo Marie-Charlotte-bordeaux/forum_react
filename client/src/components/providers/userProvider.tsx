@@ -65,10 +65,15 @@ export default function UserProvider({ children }: { children: ReactNode }) {
     }
 
     // 🔹 Déconnexion
-    function logout() {
-    axios.post("http://localhost:5000/api/users/logout", {}, { withCredentials: true })
-        .then(() => setUser(null))
-        .catch(err => console.error("Erreur lors de la déconnexion :", err));
+    async function logout() {
+        try {
+            const response = await axios.post("http://localhost:5000/api/users/logout", {}, { withCredentials: true });
+            console.log("Réponse logout :", response);
+            setUser(null);
+            localStorage.removeItem("access_token");
+        } catch (err) {
+            console.error("Erreur lors de la déconnexion :", err);
+        } 
     }
 
     return (

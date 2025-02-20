@@ -1,4 +1,5 @@
 import { NavLink } from "react-router"
+import BtnOut from "../ux/buttons/btn-out"
 
 function Navbar() {
 
@@ -21,7 +22,7 @@ function Navbar() {
           <NavLink to="/signup" >up page</NavLink>
         </li>     
         <li>
-          <NavLink to="/logout" >Aller! salut !</NavLink>
+          <BtnOut/>
         </li>  
       </ul>
     </nav>
