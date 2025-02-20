@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { UserContext } from "../providers/userContext"; // Assure-toi que le chemin est correct
+import { useNavigate } from "react-router-dom";
 
 // 🔹 Définition du schéma de validation avec Zod
 const schema = z
@@ -32,6 +33,7 @@ const SignupForm: React.FC = () => {
     
   // 🔹 Utiliser le contexte correctement
   const userContext = useContext(UserContext);
+  const navigate = useNavigate();
   
   if (!userContext) {
     return <p>Chargement...</p>; // ⚠️ Vérification pour éviter une erreur si `UserContext` est null
@@ -46,6 +48,7 @@ const SignupForm: React.FC = () => {
       // Vérifier si l'inscription a réussi et afficher un message approprié
       if (result.success) {
         alert(result.message); // Inscription réussie
+        navigate("/");
       } else {
         alert(result.message); // Message d'erreur
       }
