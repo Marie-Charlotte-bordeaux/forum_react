@@ -22,13 +22,13 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 const SignupForm: React.FC = () => {
-      const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<FormData>({
-      resolver: zodResolver(schema),
-    });
+    const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
     
   // 🔹 Utiliser le contexte correctement
   const userContext = useContext(UserContext);
