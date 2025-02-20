@@ -2,12 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { UserContext } from "../providers/userContext";
 
 // 🔹 Définition du schéma de validation avec Zod
 const schema = z
   .object({
-    firstname: z.string().min(2, "Le prénom doit avoir au moins 2 caractères"),
-    lastname: z.string().min(2, "Le nom doit avoir au moins 2 caractères"),
+    firstName: z.string().min(2, "Le prénom doit avoir au moins 2 caractères"),
+    lastName: z.string().min(2, "Le nom doit avoir au moins 2 caractères"),
     email: z.string().email("Adresse e-mail invalide"),
     password: z.string().min(6, "Le mot de passe doit avoir au moins 6 caractères"),
     confirmPassword: z.string(),
@@ -21,6 +22,8 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 const SignupForm: React.FC = () => {
+
+  const signup = React.useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -30,10 +33,23 @@ const SignupForm: React.FC = () => {
   });
 
   // 🔹 Fonction appelée lors de la soumission du formulaire
-  const onSubmit = (data: FormData) => {
-    console.log("Formulaire soumis :", data);
-    alert("Inscription réussie !");
+  const onSubmit = async (data: FormData) => {
+    try {
+      // Appeler ta fonction signup avec les données du formulaire
+      const result = await signup(data);
+  
+      // Vérifier si l'inscription a réussi et afficher un message approprié
+      if (result.success) {
+        alert(result.message); // Inscription réussie
+      } else {
+        alert(result.message); // Message d'erreur
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'inscription :", error);
+      alert("Une erreur est survenue. Veuillez réessayer.");
+    }
   };
+  
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -43,22 +59,22 @@ const SignupForm: React.FC = () => {
         <div>
           <label className="block text-sm font-medium">Prénom</label>
           <input
-            {...register("firstname")}
+            {...register("firstName")}
             className="w-full p-2 border rounded"
             placeholder="Votre prénom"
           />
-          {errors.firstname && <p className="text-red-500 text-sm">{errors.firstname.message}</p>}
+          {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
         </div>
 
         {/* 🔹 Champ Nom */}
         <div>
           <label className="block text-sm font-medium">Nom</label>
           <input
-            {...register("lastname")}
+            {...register("lastName")}
             className="w-full p-2 border rounded"
             placeholder="Votre nom"
           />
-          {errors.lastname && <p className="text-red-500 text-sm">{errors.lastname.message}</p>}
+          {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName.message}</p>}
         </div>
 
         {/* 🔹 Champ Email */}
