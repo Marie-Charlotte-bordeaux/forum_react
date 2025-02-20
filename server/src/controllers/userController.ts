@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../schemas/user.schema';
-import bcrypt from 'bcryptjs';
 import { IUser } from '../models/user';
-import * as userService from '../services/user.service'
 import { Hasher } from '../libs/hash';
 import { UserService } from '../services/user.service';
 import { UserDto } from '../dto/user.dto';
