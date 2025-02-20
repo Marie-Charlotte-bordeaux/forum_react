@@ -1,4 +1,4 @@
-import { UserContext, UserContextType } from "./userContext";
+import { UserContext } from "./userContext";
 import { ReactNode, useEffect, useState } from "react";
 import axios from "axios";
 

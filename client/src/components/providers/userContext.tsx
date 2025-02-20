@@ -5,6 +5,7 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
 }
 
 // 🔹 Définition du type du contexte utilisateur
@@ -33,7 +34,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       // Simuler un appel API (remplace ça par une requête HTTP)
       console.log("Tentative d'inscription avec :", data);
-      setUser({ firstName: data.firstName, lastName: data.lastName, email: data.email });
+      setUser({ firstName: data.firstName, lastName: data.lastName, email: data.email, password: data.password });
 
       return { success: true, message: "Inscription réussie !" };
     } catch (error) {
