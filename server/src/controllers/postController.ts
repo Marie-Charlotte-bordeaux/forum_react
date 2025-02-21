@@ -115,9 +115,18 @@ export async function GetPostsUser(req: Request, res: Response): Promise<void>{
       res.status(401).json({ message: "UNAUTHORIZED" });
       return
     }
-
-    const post = await PostService.findAll();
-    res.status(201).json({post});
+    console.log("userId reçu :", req.params.userId);
+    const user_Id = req.params.userId
+    if (!user_Id) {
+      res.status(400).json({ message: "USER_ID_REQUIRED" });
+      return;
+    }
+    const posts = await PostService.findByUserId(user_Id);
+    if (posts.length === 0) {
+      res.status(404).json({ message: "NO_POSTS_FOUND" });
+      return;
+    }
+    res.status(201).json({posts});
   } 
   catch (error) {
 }

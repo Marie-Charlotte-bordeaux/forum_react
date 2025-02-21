@@ -20,6 +20,20 @@ export const PostService ={
       }
   },
 
+  findByUserId: async (user_Id: string) => {
+    try {
+      if (!user_Id){
+        throw new Error("ID_USER_FALSE")
+      }
+      const posts = await Post.find({ user_Id: user_Id})
+        .populate('user_Id', 'lastName firstName -_id')
+        .select('-deleted_at -is_deleted -created_at');
+      return posts;
+      } catch (error) {
+        throw new Error('Erreur lors de la recherche des POSTs');
+      }
+  },
+
   create: async (postData: any) =>{
     const newPost = new Post(postData);
     const savedPost = await newPost.save();
