@@ -9,7 +9,7 @@ export default function Navbar() {
   const [search, setSearch] = useState("");
 
   return (
-    <nav className="bg-blue-950 shadow-md  top-0 w-full z-50">
+    <nav className="bg-sky-950 shadow-md  top-0 w-full z-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           {/* 🏠 Logo / Home */}

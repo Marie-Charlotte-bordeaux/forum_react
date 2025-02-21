@@ -25,7 +25,7 @@ function App() {
         <Route  path="/signin" element={< Authentification />}/>
       </Routes>
     </main>
-    <footer>
+    <footer className="bg-sky-950 shadow-md  bot-0 w-full z-50">
     </footer>
 
     </BrowserRouter>
