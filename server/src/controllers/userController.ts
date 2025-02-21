@@ -105,7 +105,33 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
   return;
 };
 
+// ********************
+// Récupérer l'utilisateur connecté
+// ********************
+export const getMe = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Vérifier si l'utilisateur est authentifié
+    if (!req.user) {
+        // Si pas d'utilisateur authentifié, retourner une erreur
+        res.status(401).json({ message: "Non authentifié" });
+        return;
+    }
 
+    // Si l'utilisateur est authentifié, retourner ses données
+    const user = req.user;
+    // Renvoie une réponse avec les informations de l'utilisateur
+    res.json({
+      _id: user._id,
+      email: user.email,
+      avatarURL: user.avatarURL,  
+      fisrtName: user.fisrtName   
+    });
+  } catch (error) {
+    console.error("Erreur serveur :", error);
+    // En cas d'erreur serveur, retourner un message d'erreur
+    res.status(500).json({ message: "Erreur serveur lors de la récupération de l'utilisateur." });
+  }
+};
 // *******************************
 // Déconnexion de l'utilisateur
 // *******************************

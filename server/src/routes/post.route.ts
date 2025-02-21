@@ -9,13 +9,13 @@ const postRouter = express.Router();
 // ok Create un post
 postRouter.post('/createPost', CreatePost);
 
-// ok Get by-id lire un post
+// ok Get by-id Afficher un post
 postRouter.get('/post/:id', GetPostById);
 
-// ok Get all lire  post d'un user ok
+// ok Get all Afficher post d'un user 
 postRouter.get('/post/:userId/posts', GetPostsUser);
 
-// ok Get all lire plsr post 
+// ok Get all Afficher plsr post 
 postRouter.get('/posts', GetAllPosts);
 
 
