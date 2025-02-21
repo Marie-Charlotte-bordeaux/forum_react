@@ -1,5 +1,5 @@
 import express from 'express';
-import { CreatePost, GetAllPosts, GetPostById, GetPosts, EditePost } from '../controllers/postController';
+import { CreatePost, GetAllPosts, GetPostById, GetPostsUser, EditePost } from '../controllers/postController';
 
 const postRouter = express.Router();
 
@@ -16,7 +16,7 @@ postRouter.put('/post/:id', EditePost);
 postRouter.get('/post/:id', GetPostById);
 
 //Get all lire  post d'un user
-postRouter.get('/post/user/:id', GetPosts);
+postRouter.get('/post/:userId/posts', GetPostsUser);
 
 //Get all lire plsr post 
 postRouter.get('/posts', GetAllPosts);
