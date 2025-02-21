@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import User from '../schemas/user.schema';
 import { IUser } from '../models/user';
-import { Hasher } from '../libs/hash';
 import { UserService } from '../services/user.service';
-import { UserDto } from '../dto/user.dto';
-import {JWT} from '../libs/jwt'; 
 import { IUserLogin } from '../models/userLogin';  // Importation de l'interface IUserLogin
+import { UserDto } from '../dto/user.dto';
+import { Hasher } from '../libs/hash';
+import {JWT} from '../libs/jwt'; 
 
 
 // *******************************

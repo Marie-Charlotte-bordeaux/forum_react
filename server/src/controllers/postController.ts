@@ -1,6 +1,9 @@
+import { Request, Response } from 'express';
+
 import { PostSchema } from "../schemas/post.schema"
 import { IPost } from "../models/post"
 import { PostService } from "../services/post.service"
+
 
 
 

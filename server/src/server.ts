@@ -2,6 +2,7 @@ import express from "express";
 import { connectToMongo } from "./utils/db";
 import userRouter from "./routes/user.route";
 import cors from "cors";
+import postRouter from "./routes/post.route";
 
 
 const app = express();
@@ -18,10 +19,23 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+
+// *******************************
+// USER
+// *******************************
 app.use("/api/users", userRouter);
 
-const port = process.env.PORT || 5000;
+// *******************************
+// Posts forum
+// *******************************
 
+app.use("/api/pots", postRouter);
+
+
+// *******************************
+// Start server
+// *******************************
+const port = process.env.PORT || 5000;
 async function startServer() {
     try {
         await connectToMongo();

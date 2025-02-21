@@ -13,13 +13,16 @@
         "_id": "ObjectId",
         "userId": "ObjectId",
         "avatarUrl": "string",
-        "actived_at": "boolean",
+        "is_active": "boolean",
         "created_at": "date"
     },
     "posts": {
         "_id": "ObjectId",
         "userId": "ObjectId",
+        "title": "string",
         "content": "string",
+        "likesCount": "number",
+        "commentsCount": "number",
         "created_at": "date",
         "updated_at": "date",
         "deleted_at": "date",
@@ -34,6 +37,13 @@
         "updated_at": "date",
         "deleted_at": "date",
         "is_deleted": "boolean"
+    },
+    "likes": {
+        "_id": "ObjectId",
+        "userId": "ObjectId",
+        "postId": "ObjectId",
+        "commentId": "ObjectId",
+        "created_at": "date"
     },
     "favorites": {
         "_id": "ObjectId",
