@@ -30,14 +30,12 @@ export async function CreatePost(req: Request, res: Response): Promise<void> {
         return;
       }
       // Si la validation réussit, on peut créer le post (si user est ok)
-      const { title, content, user_Id, created_at, updated_at } = validation.data;
+      const { title, content, user_Id } = validation.data;
       // Créer un nouvel post
       const post: IPost = new Post ({
         title,
         content,
-        user_Id,
-        created_at,
-        updated_at
+        user_Id
       });
 
     //Vérifié si user = true et si login
@@ -51,15 +49,13 @@ export async function CreatePost(req: Request, res: Response): Promise<void> {
           res.status(400).json({ message: ERRORS.USER_DOESNT_EXIST });
           return;
         }
-        const createdPost = await PostService.create({title, content, user_Id, created_at, updated_at});
+        const createdPost = await PostService.create({title, content, user_Id});
 
         //dto use ici pour renvoyer le bon format
         const postResponse = {
           title: createdPost.title,
           content: createdPost.content,
-          user_Id: createdPost.user_Id,
-          created_at: createdPost.created_at,
-          updated_at: createdPost.updated_at
+          user_Id: existingUser._id,
         };
 
         res.status(200).json({ message: 'POST_CREATED', post: postResponse});

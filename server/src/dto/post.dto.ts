@@ -15,6 +15,4 @@ export const PostDto = z.object({
     .string()
     .regex(/^[0-9a-fA-F]{24}$/, { message: "ID utilisateur invalide" }), // Vérifie que c'est un ObjectId MongoDB
 
-  created_at: z.string().default(() => new Date().toISOString()), // Stocké en ISO string
-  updated_at: z.string().optional(), // Stocké en ISO string aussi
 });
