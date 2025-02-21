@@ -3,9 +3,11 @@ import { connectToMongo } from "./utils/db";
 import userRouter from "./routes/user.route";
 import cors from "cors";
 import postRouter from "./routes/post.route";
+import cookieParser from "cookie-parser";
 
 
 const app = express();
+app.use(cookieParser());
 
 // Configurer CORS pour permettre les requêtes depuis le frontend (React)
 const corsOptions = {

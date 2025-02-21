@@ -13,6 +13,5 @@ export const PostDto = z.object({
 
   user_Id: z
     .string()
-    .regex(/^[0-9a-fA-F]{24}$/, { message: "ID utilisateur invalide" }), // Vérifie que c'est un ObjectId MongoDB
-
+    
 });
