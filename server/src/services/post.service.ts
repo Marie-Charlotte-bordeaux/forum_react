@@ -25,6 +25,4 @@ export const PostService ={
     const savedPost = await newPost.save();
     return savedPost;
   }
-
-
 } 
