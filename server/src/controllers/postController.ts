@@ -108,6 +108,13 @@ export async function GetPostById(req: Request, res: Response): Promise<void> {
 // lecture all posts
 // *******************************
 export async function GetPosts(req: Request, res: Response): Promise<void>{
+  
+}
+
+// *******************************
+// lecture all posts
+// *******************************
+export const GetAllPosts = async (req: Request, res: Response): Promise<void> =>{
   try{
     const token = req.cookies.access_token;
     const data = JWT.verify(token);
@@ -122,13 +129,6 @@ export async function GetPosts(req: Request, res: Response): Promise<void>{
   catch (error) {
     res.status(500).json({ message: "DATABASE_ERROR", error });
   }
-}
-
-// *******************************
-// lecture all posts
-// *******************************
-export const GetAllPosts = async (req: Request, res: Response): Promise<void> =>{
-
 }
 
 // *******************************

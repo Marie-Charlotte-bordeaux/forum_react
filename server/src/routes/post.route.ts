@@ -10,15 +10,15 @@ const postRouter = express.Router();
 postRouter.post('/createPost', CreatePost);
 
 //Modifier un post
-postRouter.put('/post/:_id', EditePost);
+postRouter.put('/post/:id', EditePost);
 
 //Get by-id lire un post
 postRouter.get('/post/:id', GetPostById);
 
 //Get all lire  post d'un user
-postRouter.get('/post/user/:_id', GetPosts);
+postRouter.get('/post/user/:id', GetPosts);
 
-//Get all lire  post 
+//Get all lire plsr post 
 postRouter.get('/posts', GetAllPosts);
 
 //Delete un post
