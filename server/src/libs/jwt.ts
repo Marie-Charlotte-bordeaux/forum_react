@@ -9,7 +9,7 @@ sign: (payload: any) => {
   const token = jwt.sign({ data: payload }, SECRET_KEY, { expiresIn: EXPIRES_IN });
   return token
 },
-verify: (token: string, p0: string) => {
+verify: (token: string) => {
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
     return { success: true, payload: decoded };

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { GetCommentDto } from "./comment.dto";
 
 export const PostDto = z.object({
   title: z
@@ -15,3 +16,29 @@ export const PostDto = z.object({
     .string()
     
 });
+
+export const GetPostDto = z.object({
+  title: z
+    .string(),
+
+  content: z
+    .string(),
+
+  firstName: z
+    .string(),
+
+  lastName : z
+    .string(),
+
+  likes: 
+  z.array(z.string()),
+
+  comments: z.array(
+    GetCommentDto
+  ), // Tableau d'objets représentant les commentaires
+
+  updated_at: 
+    z.string().default(() => new Date().toISOString()),
+
+    
+})

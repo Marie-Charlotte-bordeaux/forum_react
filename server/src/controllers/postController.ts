@@ -25,44 +25,43 @@ export async function CreatePost(req: Request, res: Response): Promise<void> {
       //  Récupérer le token depuis les cookies
       const token = req.cookies.access_token;
       if (!token) {
-        console.log('token! if', token)
-          res.status(401).json({ message: "Utilisateur non authentifié" });
-          return;
+        // console.log('token! if', token)
+        res.status(401).json({ message: "Utilisateur non authentifié" });
+        return;
       }
-      console.log('token! else', token)
+      // console.log('token! else', token)
 
       //  Vérifier le JWT et extraire l'ID utilisateur
-      const decoded = JWT.verify(token, process.env.JWT_SECRET as string) as unknown as {
+      const decoded = JWT.verify(token) as unknown as {
         payload: any; user_Id: string 
-};
+      };
       const user_Id = decoded.payload.data.id;
 
-      console.log('decoded', decoded, 'user_Id', user_Id)
+      // console.log('decoded', decoded, 'user_Id', user_Id)
+
       //  Valider les données du body
       const validation = PostDto.safeParse({ ...req.body, user_Id });
 
-      console.log('validation', validation)
+      // console.log('validation', validation)
 
       if (!validation.success) {
           res.status(400).json({ message: "Erreur de validation", errors: validation.error.errors });
           return;
       }
 
-      //  recupere l'id que l'utilisateur existe
-      const idFromDb = await UserService.findById(user_Id);
-      console.log("idFromDb !!!!", idFromDb)
-      console.log("user_Id :::", user_Id)
+      //  recupere l'id de la db et on compare avec l'id du usertoken
+      const dataFromDb = await UserService.findById(user_Id);
+      // console.log("dataFromDb !!!!", dataFromDb)
+      // console.log("user_Id :::", user_Id)
       
-      if (idFromDb ) {
-        console.log("idFromDb...")
-        if( idFromDb._id.toString() !== user_Id){
-          console.log("idFromDb... idFromDb._id", idFromDb._id, "user_Id", user_Id,  idFromDb._id !== user_Id)
-
+      if ( dataFromDb ) {
+        // console.log("dataFromDb...")
+        if( dataFromDb._id.toString() !== user_Id){
+          // console.log("dataFromDb... dataFromDb._id", dataFromDb._id, "user_Id", user_Id,  dataFromDb._id !== user_Id)
           res.status(400).json({ message: ERRORS.USER_DOESNT_EXIST });
           return;
         }
       
-
       //  Créer le post
       const { title, content } = validation.data;
       const createdPost = await PostService.create({ title, content, user_Id });
@@ -76,17 +75,34 @@ export async function CreatePost(req: Request, res: Response): Promise<void> {
               user_Id: user_Id,
           }
       });
-  }} catch (error) {
+    }
+  } catch (error) {
       res.status(500).json({ message: "DATABASE_ERROR", error });
   }
 }
 
 // *******************************
-// lectur un post
+// lecture un post
 // *******************************
-export const GetPostById = async (req: Request, res: Response): Promise<void> =>{
+// /api/post/
+export async function GetPostById(req: Request, res: Response): Promise<void> {
+  try{
+    const token = req.cookies.access_token;
+    const data = JWT.verify(token);
+    if(!data?.success){
+      res.status(401).json({ message: "UNAUTHORIZED" });
+      return
+    }
 
+    const postID = req.params.id
+    const post = await PostService.findById(postID);
+    res.status(201).json({post});
+  } 
+  catch (error) {
+    res.status(500).json({ message: "DATABASE_ERROR", error });
+  }
 }
+
 
 // *******************************
 // lecture all posts

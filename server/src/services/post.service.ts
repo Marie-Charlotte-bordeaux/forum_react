@@ -4,14 +4,14 @@ export const PostService ={
 
   findById: async (_id: string) => {
     try {
-        const post = await Post.findOne({ _id });
+        const post = await Post.findOne({ _id }).populate('user_Id', 'lastName firstName -_id').select('-deleted_at');
         return post;
       } catch (error) {
         throw new Error('Erreur lors de la recherche du POST_id');
       }
   },
 
-  getAll: async () => {
+  findAll: async () => {
     try {
       const posts = await Post.find();
       return posts;
