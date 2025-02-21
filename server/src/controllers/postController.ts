@@ -81,7 +81,26 @@ export async function CreatePost(req: Request, res: Response): Promise<void> {
   }
 }
 
+// *******************************
+// lectur un post
+// *******************************
+export const GetPostById = async (req: Request, res: Response): Promise<void> =>{
 
+}
+
+// *******************************
+// lecture all posts
+// *******************************
+export const GetPosts = async (req: Request, res: Response): Promise<void> =>{
+
+}
+
+// *******************************
+// lecture all posts
+// *******************************
+export const GetAllPosts = async (req: Request, res: Response): Promise<void> =>{
+
+}
 
 // *******************************
 // modifier un post
