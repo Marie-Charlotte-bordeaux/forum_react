@@ -13,7 +13,7 @@ export const PostService ={
 
   findAll: async () => {
     try {
-      const posts = await Post.find();
+      const posts = await Post.find().populate('user_Id', 'lastName firstName -_id').select('-deleted_at -is_deleted -created_at');
       return posts;
       } catch (error) {
         throw new Error('Erreur lors de la recherche des POSTs');

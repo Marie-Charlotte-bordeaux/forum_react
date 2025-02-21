@@ -107,8 +107,21 @@ export async function GetPostById(req: Request, res: Response): Promise<void> {
 // *******************************
 // lecture all posts
 // *******************************
-export const GetPosts = async (req: Request, res: Response): Promise<void> =>{
+export async function GetPosts(req: Request, res: Response): Promise<void>{
+  try{
+    const token = req.cookies.access_token;
+    const data = JWT.verify(token);
+    if(!data?.success){
+      res.status(401).json({ message: "UNAUTHORIZED" });
+      return
+    }
 
+    const post = await PostService.findAll();
+    res.status(201).json({post});
+  } 
+  catch (error) {
+    res.status(500).json({ message: "DATABASE_ERROR", error });
+  }
 }
 
 // *******************************
