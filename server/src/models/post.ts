@@ -2,7 +2,7 @@ import mongoose, { Document} from "mongoose";
 import { IUser } from "./user";
 
 export interface IPost extends Document {
-    userId: mongoose.Types.ObjectId | IUser;
+    user_Id: mongoose.Types.ObjectId | IUser;
     title: string;
     likesCount: number;
     commentsCount: number;

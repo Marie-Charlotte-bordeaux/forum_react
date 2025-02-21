@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import { IPost } from "../models/post";
 
 export const PostSchema = new Schema<IPost>({
-    userId: { type: mongoose.Types.ObjectId, required: true },
+    user_Id: { type: mongoose.Types.ObjectId, required: true },
     title: { type: String, required: true},
     content: { type: String, required: true },
     likesCount: { type: Number, required: true },

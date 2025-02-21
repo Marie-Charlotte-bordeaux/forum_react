@@ -11,7 +11,7 @@ export const PostDto = z.object({
     .min(2, { message: "Votre contenu ne peut pas être vide" })
     .max(500, { message: "Le contenu du post ne peut excéder 500 caractères" }),
 
-  authorId: z
+  user_Id: z
     .string()
     .regex(/^[0-9a-fA-F]{24}$/, { message: "ID utilisateur invalide" }), // Vérifie que c'est un ObjectId MongoDB
 
