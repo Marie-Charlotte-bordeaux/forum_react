@@ -6,20 +6,21 @@ const postRouter = express.Router();
 // *******************************
 // POSTS forum
 // *******************************
-//Create un post
+// ok Create un post
 postRouter.post('/createPost', CreatePost);
+
+// ok Get by-id lire un post
+postRouter.get('/post/:id', GetPostById);
+
+// ok Get all lire  post d'un user ok
+postRouter.get('/post/:userId/posts', GetPostsUser);
+
+// ok Get all lire plsr post 
+postRouter.get('/posts', GetAllPosts);
+
 
 //Modifier un post
 postRouter.put('/post/:id', EditePost);
-
-//Get by-id lire un post
-postRouter.get('/post/:id', GetPostById);
-
-//Get all lire  post d'un user
-postRouter.get('/post/:userId/posts', GetPostsUser);
-
-//Get all lire plsr post 
-postRouter.get('/posts', GetAllPosts);
 
 //Delete un post
 
