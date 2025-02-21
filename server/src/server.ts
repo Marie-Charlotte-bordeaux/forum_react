@@ -29,7 +29,7 @@ app.use("/api/users", userRouter);
 // Posts forum
 // *******************************
 
-app.use("/api/pots", postRouter);
+app.use("/api/posts", postRouter);
 
 
 // *******************************
