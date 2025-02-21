@@ -32,23 +32,36 @@ export async function CreatePost(req: Request, res: Response): Promise<void> {
       console.log('token! else', token)
 
       //  Vérifier le JWT et extraire l'ID utilisateur
-      const decoded = JWT.verify(token, process.env.JWT_SECRET as string) as unknown as { user_Id: string };
-      const user_Id = decoded.user_Id;
+      const decoded = JWT.verify(token, process.env.JWT_SECRET as string) as unknown as {
+        payload: any; user_Id: string 
+};
+      const user_Id = decoded.payload.data.id;
+
       console.log('decoded', decoded, 'user_Id', user_Id)
       //  Valider les données du body
       const validation = PostDto.safeParse({ ...req.body, user_Id });
+
       console.log('validation', validation)
+
       if (!validation.success) {
           res.status(400).json({ message: "Erreur de validation", errors: validation.error.errors });
           return;
       }
 
-      //  Vérifier que l'utilisateur existe
-      const existingUser = await UserService.findById(user_Id);
-      if (!existingUser) {
+      //  recupere l'id que l'utilisateur existe
+      const idFromDb = await UserService.findById(user_Id);
+      console.log("idFromDb !!!!", idFromDb)
+      console.log("user_Id :::", user_Id)
+      
+      if (idFromDb ) {
+        console.log("idFromDb...")
+        if( idFromDb._id.toString() !== user_Id){
+          console.log("idFromDb... idFromDb._id", idFromDb._id, "user_Id", user_Id,  idFromDb._id !== user_Id)
+
           res.status(400).json({ message: ERRORS.USER_DOESNT_EXIST });
           return;
-      }
+        }
+      
 
       //  Créer le post
       const { title, content } = validation.data;
@@ -60,10 +73,10 @@ export async function CreatePost(req: Request, res: Response): Promise<void> {
           post: {
               title: createdPost.title,
               content: createdPost.content,
-              user_Id: existingUser._id,
+              user_Id: user_Id,
           }
       });
-  } catch (error) {
+  }} catch (error) {
       res.status(500).json({ message: "DATABASE_ERROR", error });
   }
 }
