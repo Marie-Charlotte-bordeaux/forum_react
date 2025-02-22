@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { UserContext } from "../providers/userContext"; // Assure-toi que le chemin est correct
+import { UserContext } from "../providers/userContext";
 import { useNavigate } from "react-router-dom";
 
 // 🔹 Définition du schéma de validation avec Zod
@@ -12,76 +12,80 @@ const schemaLog = z
     password: z.string().min(6, "Le mot de passe doit avoir au moins 6 caractères"),
   });
 
-  // 🔹 Type des données du formulaire
-  type FormData = z.infer<typeof schemaLog>;
+// 🔹 Type des données du formulaire
+type FormData = z.infer<typeof schemaLog>;
 
-  // 🔹 Permet de recuperer et comparer les données rentrées dans les inputs
-  const SignInForm: React.FC = () => {
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      reset,
-    } = useForm<FormData>({
-      resolver: zodResolver(schemaLog),
-    });
+const SignInForm: React.FC = () => {
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+    resolver: zodResolver(schemaLog),
+  });
 
-  // 🔹 Utiliser le contexte correctement
   const userContext = useContext(UserContext);
-  
   const navigate = useNavigate();
 
   if (!userContext) {
-    return <p>Chargement...</p>; // ⚠️ Vérification pour éviter une erreur si `UserContext` est null
-  }const { signin } = userContext;
+    return <p>Chargement...</p>; // verif pour éviter une erreur si `UserContext` est null
+  }
+  const { signin } = userContext;
 
-    // 🔹 Fonction appelée lors de la soumission du formulaire
-    const onSubmit = async (data: FormData) => {
-      try {
-        // Appeler la fonction signin depuis le contexte
-        const result = await signin(data);
-
-        // Vérifier si l'inscription a réussi et afficher un message approprié
-        if (result.success) {
-          alert(result.message); // Inscription réussie
-          reset();
-          navigate("/");
-        } else {
-          alert(result.message); // Message d'erreur
-        }
-      } catch (error) {
-        console.error("Erreur lors de l'inscription :", error);
-        alert("Une erreur est survenue. Veuillez réessayer.");
+  // 🔹 Fonction appelée lors de la soumission du formulaire
+  const onSubmit = async (data: FormData) => {
+    try {
+      const result = await signin(data);
+      if (result.success) {
+        alert(result.message); // Inscription réussie
+        reset();
+        navigate("/");
+      } else {
+        alert(result.message); // Message d'erreur
       }
-    };
-    
+    } catch (error) {
+      console.error("Erreur lors de l'inscription :", error);
+      alert("Une erreur est survenue. Veuillez réessayer.");
+    }
+  };
 
-  return(
+  return (
     <>
-  <form  onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
+      <div className="max-w-md mx-auto p-6 bg-gray-900 shadow-lg rounded-xl">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
-    {/* 🔹 Champ Email */}
-    <div className="mb-5">
-      <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-      <input {...register("email")} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required />
-      {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
-    </div>
+          {/* 🔹 Champ Email */}
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Your email</label>
+            <input
+              {...register("email")}
+              type="email"
+              id="email"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="name@flowbite.com"
+            />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+          </div>
 
-    {/* 🔹 Champ Mot de passe */}
-    <div className="mb-5">
-      <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-      <input {...register("password")} type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-      {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          {/* 🔹 Champ Mot de passe */}
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Your password</label>
+            <input
+              {...register("password")}
+              type="password"
+              id="password"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+          </div>
+
+          {/* 🔹 Bouton Soumettre */}
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Se connecter
+          </button>
+        </form>
       </div>
-
-    {/* 🔹 Bouton Soumettre */}
-    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-  </form>
-
     </>
-    );
-  
+  );
 };
-
 
 export default SignInForm;
