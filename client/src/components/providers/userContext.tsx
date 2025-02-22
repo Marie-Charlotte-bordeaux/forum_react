@@ -13,6 +13,7 @@ interface UserContextType {
   signup: (data: { firstName: string; lastName: string; email: string; password: string }) => Promise<{ success: boolean; message: string }>;
   signin: (data: { email: string; password: string }) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
+  loading: boolean;
 }
 
 // 🔹 Création du contexte (valeur par défaut à `null`)

@@ -1,15 +1,29 @@
 import { useContext, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import CardPost from "../layout/cardPost";
 import { PostContext } from "../providers/posts/postContext";
+import { UserContext } from "../providers/userContext";
 
 function Home() {
   const { posts, getAllPosts } = useContext(PostContext);
-
-  // Récupérer les posts au chargement de la page
+   // Récupérer les posts au chargement de la page
   useEffect(() => {
     getAllPosts();
   }, [getAllPosts]);
+
+ // Redirige vers la connexion si non connecté
+  const userContext = useContext(UserContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!userContext?.user) {
+            navigate("/login");
+        }
+    }, [navigate, userContext?.user]);
+
+    if (!userContext?.user) return <p>Chargement...</p>;
+
+
 
   return (
     <div className="max-w-4xl mx-auto p-4 bg-gray-800">

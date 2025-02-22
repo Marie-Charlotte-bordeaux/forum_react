@@ -15,7 +15,7 @@ export default function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         {/* 🔹 Logo */}
         <NavLink to="/" className="text-gray-400 font-bold text-xl">
-          Foforum
+          Foforum 🔥
         </NavLink>
 
         {/* 🔹 Menu principal */}
@@ -63,22 +63,22 @@ export default function Navbar() {
                     <MenuItem>
                       {({ focus }) => (
                         <NavLink
-                          to="/profile"
+                          to="/formPost"
                           className={`flex items-center px-4 py-2 text-sm text-gray-300 ${focus ? "bg-gray-700 text-white" : ""}`}
                         >
                           <UserCircle2 className="h-5 w-5 mr-2 text-blue-400" />
-                          Mon profil
+                          Créer un post 
                         </NavLink>
                       )}
                     </MenuItem>
                     <MenuItem>
                       {({ focus }) => (
                         <NavLink
-                          to="/settings"
+                          to="/"
                           className={`flex items-center px-4 py-2 text-sm text-gray-300 ${focus ? "bg-gray-700 text-white" : ""}`}
                         >
                           <Settings className="h-5 w-5 mr-2 text-blue-400" />
-                          Paramètres
+                          Tous les posts
                         </NavLink>
                       )}
                     </MenuItem>
