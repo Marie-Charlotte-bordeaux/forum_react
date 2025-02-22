@@ -14,7 +14,7 @@ interface PostContextType {
     getPost: (postId: string) => Promise<{ success: boolean; message: string; data?: Post, error?: unknown }>;
     getAllPosts: () => Promise<{ success: boolean; message: string; data?: Post[], error?: unknown }>;
     getPostByUserId: (userId: string) => Promise<{ success: boolean; message: string; data?: Post[], error?: unknown }>;
-    loading?: boolean; // Ajout de la propriété loading
+    loading: boolean;
 }
 
 // Valeur par défaut 

@@ -1,30 +1,15 @@
 import { useContext, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import CardPost from "../layout/cardPost";
+import { NavLink } from "react-router-dom";
 import { PostContext } from "../providers/posts/postContext";
-import { UserContext } from "../providers/userContext";
 
 function Home() {
   const { posts, getAllPosts } = useContext(PostContext);
-   // Récupérer les posts au chargement de la page
+
+  // Récupérer les posts au chargement de la page
   useEffect(() => {
-    getAllPosts();
+    getAllPosts();  // Appel pour récupérer les posts depuis l'API
   }, [getAllPosts]);
-
- // Redirige vers la connexion si non connecté
-  const userContext = useContext(UserContext);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!userContext?.user) {
-            navigate("/login");
-        }
-    }, [navigate, userContext?.user]);
-
-    if (!userContext?.user) return <p>Chargement...</p>;
-
-
-
+console.log('posts :::',posts)
   return (
     <div className="max-w-4xl mx-auto p-4 bg-gray-800">
       <h1 className="text-2xl font-bold text-center mb-4 text-white">Tous les posts</h1>
@@ -33,21 +18,19 @@ function Home() {
       </NavLink>
 
       {/* Affichage des posts */}
-      <div className="space-y-4">
-        {posts.length > 0 ? (
-          posts.map((post) => (
-            <CardPost
-              key={post._id}
-              firstname={"Utilisateur"} // À remplacer par le vrai prénom si dispo
-              avatar={""} // Ajouter l'avatar si disponible
-              rating={4} // Tu peux ajouter un rating aléatoire ou basé sur des données
-              content={post.content}
-            />
-          ))
-        ) : (
-          <p className="text-center text-gray-400">Aucun post disponible.</p>
-        )}
-      </div>
+      {posts.length === 0 ? (
+        <p>Aucun post disponible pour l'instant.</p>
+      ) : (
+        posts.map((post) => (
+          <div key={post._id} className="p-4 bg-gray-800 rounded-lg shadow-md mb-4">
+            <h3 className="text-xl font-semibold text-white">{post.title}</h3>
+            <p className="text-gray-400">{post.content}</p>
+            <div className="mt-2 text-gray-500">
+              <span>{post.user_Id} {post.user_Id}</span>
+            </div>
+          </div>
+        ))
+      )}
     </div>
   );
 }

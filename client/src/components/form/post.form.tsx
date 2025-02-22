@@ -10,7 +10,7 @@ const PostForm: React.FC = () => {
   const [message, setMessage] = useState("");
 
   if (!postContext) return null;
-  const { create } = postContext;
+  const { create, getAllPosts } = postContext;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -20,12 +20,15 @@ const PostForm: React.FC = () => {
     try {
         const response = await create({ title, content });
 
-        console.log("Réponse de create :", response); // ➜ Ajoute ce log
+        console.log("Réponse de create :", response); 
 
         if (response?.success) {
             setMessage("Post créé avec succès !");
             setTitle("");
             setContent("");
+
+             // Recharger tous les posts après la création
+            await getAllPosts(); 
         } else {
             console.error("Erreur lors de la création :", response?.message);
             setMessage("Erreur : " + response?.message);
